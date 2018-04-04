@@ -1,0 +1,1 @@
+apply from: '../RLibrary/key.gradle'

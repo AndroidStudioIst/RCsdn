@@ -1,1 +1,5 @@
 apply from: '../RLibrary/key.gradle'
+
+dependencies {
+    implementation project(':RJsoup')
+}

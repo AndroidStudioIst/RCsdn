@@ -2,4 +2,5 @@ apply from: '../RLibrary/key.gradle'
 
 dependencies {
     implementation project(':RJsoup')
+    implementation project(':RTbs')
 }

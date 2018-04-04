@@ -28,6 +28,7 @@ class MainUIView : BaseItemUIView() {
                         .subscribe(object : RSubscriber<Document>() {
                             override fun onSucceed(bean: Document) {
                                 super.onSucceed(bean)
+                                titleString = bean.title()
                                 holder.tv(R.id.text_view).text = bean.text()
                             }
                         })

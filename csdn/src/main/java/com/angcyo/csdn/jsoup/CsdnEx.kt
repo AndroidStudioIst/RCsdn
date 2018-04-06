@@ -19,7 +19,7 @@ import rx.schedulers.Schedulers
 
 object Csdn {
     /*博客首页*/
-    const val csdn = "https://blog.csdn.net/"
+    const val csdn = "https://blog.csdn.net"
     /*排行榜首页*/
     const val rank = "https://blog.csdn.net/ranking.html"
     /*专栏首页*/
@@ -179,6 +179,37 @@ public fun String.rankList(): Observable<List<RankListItemBean>> {
                                 })
                             }
                         }
+                    })
+                }
+                list
+            }
+}
+
+/**专栏*/
+public fun String.expertList(): Observable<List<ExpertItemBean>> {
+    return this.jsoupAsync()
+            .subscribeOn(Schedulers.computation())
+            .map {
+                val list = mutableListOf<ExpertItemBean>()
+                val body = it.body()
+                val headBean = ExpertItemBean().apply {
+                    bodyTitle = it.title()
+                    //特别推荐
+                    title = body.select(".re_column").select(".tracking-ad")[1].text()
+                    des = body.select(".re_column_p").text()
+                    val style = body.select(".re_column").select(".tracking-ad")[0].select("a").attr("style")
+                    img = style.substring(21, style.length - 2)
+                    link = body.select(".re_column").select(".tracking-ad")[0].select("a").attr("href")
+
+                }
+
+                body.select(".column_list.tracking-ad").map { element ->
+                    list.add(ExpertItemBean().apply {
+                        this.headBean = headBean
+                        val style = element.select(".column_bg").attr("style")
+                        img = style.substring(21, style.length - 1)
+                        title = element.select(".column_list_p").text()
+                        link = Csdn.csdn + element.select(".column_list_link").attr("href")
                     })
                 }
                 list

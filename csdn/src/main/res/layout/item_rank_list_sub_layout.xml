@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.angcyo.uiview.viewgroup.RLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/base_bg_selector_v21"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/base_xhdpi"
+    app:r_draw_dash_line="true"
+    app:r_draw_line="BOTTOM">
+
+    <TextView
+        android:id="@+id/index_view"
+        style="@style/BaseDarkTextStyle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        tools:text="99" />
+
+    <com.angcyo.uiview.widget.GlideImageView
+        android:id="@+id/image_view"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/base_ldpi"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/name_view"
+        style="@style/BaseMainTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_ldpi"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tip_view"
+        style="@style/BaseDarkTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/base_ldpi" />
+
+</com.angcyo.uiview.viewgroup.RLinearLayout>

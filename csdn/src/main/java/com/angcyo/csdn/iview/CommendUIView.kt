@@ -21,6 +21,10 @@ import com.angcyo.uiview.widget.viewpager.UIViewPager
  */
 class CommendUIView : UISlidingTabView() {
 
+    override fun getTitleShowString(): String {
+        return "CSDN推荐"
+    }
+
     override fun createPages(pages: ArrayList<TabPageBean>) {
         super.createPages(pages)
         (mBaseDataObject as List<*>?)?.let {

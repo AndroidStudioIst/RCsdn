@@ -1,8 +1,6 @@
 package com.angcyo.csdn.jsoup
 
-import com.angcyo.csdn.bean.BlogBaseBean
-import com.angcyo.csdn.bean.BlogCommendItemBean
-import com.angcyo.csdn.bean.BlogListBean
+import com.angcyo.csdn.bean.*
 import com.angcyo.jsoup.jsoupAsync
 import rx.Observable
 import rx.schedulers.Schedulers
@@ -20,7 +18,12 @@ import rx.schedulers.Schedulers
  */
 
 object Csdn {
+    /*博客首页*/
     const val csdn = "https://blog.csdn.net/"
+    /*排行榜首页*/
+    const val rank = "https://blog.csdn.net/ranking.html"
+    /*专栏首页*/
+    const val expert = "https://blog.csdn.net/column.html"
 }
 
 /**具体博文列表*/
@@ -58,9 +61,6 @@ public fun String.bodyList(): Observable<List<BlogListBean>> {
                         })
                     }
                 }
-
-
-
                 blogList
             }
 }
@@ -127,5 +127,60 @@ public fun String.bodyNavBlogList(): Observable<List<BlogCommendItemBean>> {
 
                 }
                 blogList
+            }
+}
+
+/**排行榜 导航列表, 以及对应的数据*/
+public fun String.rankList(): Observable<List<RankListItemBean>> {
+    return this.jsoupAsync()
+            .subscribeOn(Schedulers.computation())
+            .map {
+                val list = mutableListOf<RankListItemBean>()
+                val elements = it.body().select(".ranking")
+                elements.map { e ->
+                    list.add(RankListItemBean().apply {
+                        bodyTitle = it.title()
+                        title = e.select(".rank_t").text()
+                        subItemBeans = mutableListOf()
+
+                        val rankElement = e.select(".ranking_c").first() //排行榜
+                        if (rankElement == null) {
+                            //没有排行榜, 就是博客之星
+                            e.select(".star_name").mapIndexed { index, start ->
+                                subItemBeans.add(RankListSubItemBean().apply {
+                                    title = start.text()
+                                    userName = title
+                                    link = start.attr("href")
+                                    userAvatar = e.select("img")[index].attr("src")
+                                })
+                            }
+                        } else {
+                            rankElement.children()?.map { sub ->
+                                subItemBeans.add(RankListSubItemBean().apply {
+                                    //文章排行, 有title的, 一定是文章排行榜
+                                    title = sub.select(".article_t").text()
+                                    viewCountTip = sub.select(".article_span").text()
+                                    link = sub.select(".article_t").attr("href")
+
+                                    if (link.isNullOrEmpty()) {
+                                        link = sub.select(".blog_a").attr("href")
+                                    }
+
+                                    //包含用户信息的, 就是用户排行榜
+                                    userAvatar = sub.select(".blog_img").attr("src")
+                                    if (userAvatar.isNullOrEmpty()) {
+                                        userAvatar = sub.select(".column_img").attr("src")
+                                        isUserAvatar = false
+                                    }
+
+                                    userName = sub.select(".blog_a").text() //也有可能是专栏的名称
+                                    userBlogUrl = sub.select(".blog_a").attr("href")
+                                    viewCountTip = sub.select("b").last().text()
+                                })
+                            }
+                        }
+                    })
+                }
+                list
             }
 }

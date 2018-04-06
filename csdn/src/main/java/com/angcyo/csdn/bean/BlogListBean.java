@@ -11,18 +11,5 @@ package com.angcyo.csdn.bean;
  * 修改备注：
  * Version: 1.0.0
  */
-public class BlogListBean {
-    public String bodyTitle;// 文章总标题
-    public String title; //标题
-    public String des; //描述
-    public String link; //链接
-
-    public BlogListBean() {
-    }
-
-    public BlogListBean(String title, String des, String link) {
-        this.title = title;
-        this.des = des;
-        this.link = link;
-    }
+public class BlogListBean extends BlogBaseBean {
 }

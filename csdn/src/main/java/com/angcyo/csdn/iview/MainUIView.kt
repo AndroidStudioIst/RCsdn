@@ -24,7 +24,7 @@ class MainUIView : BaseItemUIView() {
     override fun createItems(items: MutableList<SingleItem>) {
         items.add(object : SingleItem() {
             override fun onBindView(holder: RBaseViewHolder, posInData: Int, dataBean: Item?) {
-                "https://blog.csdn.net/angcyo".jsoupAsync()
+                "https://blog.csdn.net/".jsoupAsync()
                         .subscribe(object : RSubscriber<Document>() {
                             override fun onSucceed(bean: Document) {
                                 super.onSucceed(bean)

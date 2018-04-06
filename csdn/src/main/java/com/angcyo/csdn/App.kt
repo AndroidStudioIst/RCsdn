@@ -1,5 +1,6 @@
 package com.angcyo.csdn
 
+import com.angcyo.rtbs.RTbs
 import com.angcyo.uiview.RApplication
 
 /**
@@ -14,5 +15,8 @@ import com.angcyo.uiview.RApplication
  * Version: 1.0.0
  */
 class App : RApplication() {
-
+    override fun onAsyncInit() {
+        super.onAsyncInit()
+        RTbs.init(this)
+    }
 }

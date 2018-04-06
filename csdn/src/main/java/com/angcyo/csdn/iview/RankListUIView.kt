@@ -1,5 +1,6 @@
 package com.angcyo.csdn.iview
 
+import android.graphics.Color
 import android.os.Bundle
 import com.angcyo.csdn.R
 import com.angcyo.csdn.base.BaseSingleRecyclerUIView
@@ -15,7 +16,9 @@ import com.angcyo.uiview.kotlin.visible
 import com.angcyo.uiview.net.RSubscriber
 import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.recycler.adapter.RExBaseAdapter
+import com.angcyo.uiview.resources.ResUtil
 import com.angcyo.uiview.rsen.RefreshLayout
+import com.angcyo.uiview.utils.UI
 import com.angcyo.uiview.widget.CircleImageView
 
 /**
@@ -69,7 +72,21 @@ class RankListSubUIView(val title: String, val datas: List<RankListSubItemBean>)
             override fun onBindDataView(holder: RBaseViewHolder, posInData: Int, dataBean: RankListSubItemBean?) {
                 super.onBindDataView(holder, posInData, dataBean)
                 dataBean?.let { bean ->
-                    holder.tv(R.id.index_view).text = "${posInData + 1}"
+                    holder.tv(R.id.index_view).apply {
+                        text = "${posInData + 1}."
+                        UI.setBackgroundDrawable(this, when (posInData) {
+                            0 -> ResUtil.generateRoundDrawable(50f, Color.parseColor("#E1DD46"), Color.parseColor("#E1DD46"))
+                            1 -> ResUtil.generateRoundDrawable(50f, Color.parseColor("#CCD0D3"), Color.parseColor("#CCD0D3"))
+                            2 -> ResUtil.generateRoundDrawable(50f, Color.parseColor("#C49873"), Color.parseColor("#C49873"))
+                            else -> null
+                        })
+                        if (posInData < 3) {
+                            setTextColor(Color.WHITE)
+                        } else {
+                            setTextColor(getColor(R.color.base_text_color_dark))
+                        }
+                    }
+
                     holder.tv(R.id.name_view).text = if (bean.title.isNullOrEmpty())
                         bean.userName else bean.title
                     holder.tv(R.id.tip_view).text = bean.viewCountTip

@@ -23,7 +23,7 @@
         android:id="@+id/image_view"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="@dimen/base_ldpi"
+        android:layout_marginStart="@dimen/base_hdpi"
         android:scaleType="centerCrop" />
 
     <TextView
